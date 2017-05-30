@@ -1,5 +1,5 @@
 ﻿from bs4 import BeautifulSoup
-import requests
+from urllib import request
 import re
 
 try:
@@ -19,7 +19,7 @@ try:
     count = 0
     fileNameHead = 'D:\jandan\jandan\jandan'
 
-    session = requests.Session()
+    session = request.Session()
     response = session.get(origin_url + str(origin_page),headers=hearderData)
     while(response.status_code==200):
         try:
@@ -32,7 +32,7 @@ try:
             for img in imgBox:
                 matchObj = re.match( r'(.*?\.jpg)', img['src'])
                 if matchObj:
-                    r = requests.get(img['src'],timeout=5)
+                    r = request.get(img['src'],timeout=5)
                     print(r.status_code)
                     if(r.status_code==200):
                         fileName = fileNameHead + str(count) + '.jpg'
@@ -41,7 +41,7 @@ try:
                             imgFile.write(r.content)
                         count+=1
             origin_page+=1
-        except requests.exceptions.RequestException:
+        except request.exceptions.RequestException:
             print('RequestException')
             count+=1
             origin_page+=1
